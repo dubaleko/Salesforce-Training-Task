@@ -1,0 +1,19 @@
+<template>
+    <c-new-contact owner = {owner} record-id = {recordId}></c-new-contact>
+    <div class="border">
+    <lightning-card class="slds-card_boundary" title={title} icon-name="standard:contact_list">
+        <lightning-button class="slds-m-right_xx-small"  label="New" slot="actions" onclick={navigateToNewContactPage}></lightning-button>
+        <lightning-button label="New" slot="actions" onclick={openNewContactForm}></lightning-button>
+        <div class="buffer" if:true={hasResults}></div>
+        <div class="body" if:true={hasResults}>
+            <p class="slds-p-horizontal_small">
+                <lightning-datatable hide-checkbox-column show-row-number-column key-field="Id" 
+                                     data={contacts} columns={columns}></lightning-datatable>
+            </p>
+            <p class="footer">
+                <button class="slds-button" onclick={navigateToContactRelatedList}>View All</button>
+            </p>
+         </div>
+        </lightning-card>
+    </div>
+</template>

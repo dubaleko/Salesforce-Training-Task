@@ -1,0 +1,116 @@
+<template>
+    <template  if:true={showModal}>
+      <section role="dialog" tabindex="-1"  aria-labelledby="modal-heading-01"
+        aria-modal="true"  aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_small" >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close" size="large" variant="bare"
+            icon-class="slds-button_icon-inverse" onclick={handleDialogClose}></lightning-button-icon>
+            <h2 class="slds-text-heading_medium slds-hyphenate header-string slds-align_absolute-center"> New Contact</h2>
+          </header>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" >
+            <slot>
+                <lightning-record-edit-form object-api-name="Contact" onerror={handleError} onsuccess={handleSuccess}>
+                    <h3 class="test-id__section-header-container slds-p-left_small slds-m-bottom_small section-Header-First 
+                                slds-section__title slds-theme--shade">Contact Information</h3>
+                    <div class="slds-p-left_large slds-p-right_large">
+                        <div class="slds-grid">
+                            <div class="slds-col full-Size">
+                                <div class = "slds-m-bottom_xx-small label-field">Contact Owner</div>
+                                <lightning-avatar  size="x-small" variant="circle" src={owner.SmallPhotoUrl}></lightning-avatar> 
+                                <span class="slds-m-left_xx-small" style="font-size: 14px;">{owner.Name}</span>
+                            </div>
+                            <lightning-input-field class="slds-col slds-m-left_large" field-name="Phone"></lightning-input-field>
+                        </div>
+                        <div class="slds-grid">
+                            <lightning-input-field  class="slds-col full-Size" field-name="Name"></lightning-input-field>
+                            <lightning-input-field class="slds-col slds-m-left_large" field-name="HomePhone"></lightning-input-field>
+                        </div>
+                        <div class="slds-grid"> 
+                            <lightning-input-field class="slds-col"  field-name="AccountId" value={recordId}></lightning-input-field>
+                            <lightning-input-field class="slds-col slds-m-left_large"  field-name="MobilePhone"></lightning-input-field>
+                        </div>
+                        <div class="slds-grid">
+                            <lightning-input-field class="slds-col"  field-name="Title"> </lightning-input-field>
+                            <lightning-input-field class="slds-col slds-m-left_large"  field-name="OtherPhone"></lightning-input-field>
+                        </div>
+                        <div class="slds-grid">
+                            <lightning-input-field class="slds-col"  field-name="Department"></lightning-input-field>
+                            <lightning-input-field class="slds-col slds-m-left_large"  field-name="Fax"></lightning-input-field>
+                        </div>
+                        <div class="slds-grid">
+                            <lightning-input-field class="slds-col"  field-name="Birthdate"></lightning-input-field>
+                            <lightning-input-field class="slds-col slds-m-left_large"  field-name="Email"></lightning-input-field>
+                        </div>
+                        <div class="slds-grid">
+                            <lightning-input-field class="slds-col"  field-name="ReportsToId"></lightning-input-field>
+                            <lightning-input-field class="slds-col slds-m-left_large"  field-name="AssistantName"></lightning-input-field>
+                        </div>
+                        <div class="slds-grid">
+                            <lightning-input-field class="slds-col"  field-name="LeadSource"></lightning-input-field>
+                            <lightning-input-field class="slds-col slds-m-left_large"  field-name="AssistantPhone"></lightning-input-field>
+                        </div>
+                    </div>
+                    <h3 class="test-id__section-header-container slds-p-left_small slds-m-top_medium  section-Header 
+                               slds-m-bottom_small slds-section__title slds-theme--shade">Address Information</h3>
+                    <div class="slds-grid slds-p-left_medium slds-p-right_medium">
+                        <lightning-input-field class="slds-col"  field-name="MailingAddress"></lightning-input-field>
+                        <lightning-input-field class="slds-col slds-m-left_large"  field-name="OtherAddress"></lightning-input-field>
+                    </div>
+                    <h3 class="test-id__section-header-container slds-p-left_small slds-m-top_medium section-Header  
+                               slds-m-bottom_small slds-section__title slds-theme--shade">Additional Information</h3>
+                    <div class="slds-grid slds-p-left_medium slds-p-right_medium">
+                        <lightning-input-field class="slds-col"  field-name="Languages__c"></lightning-input-field>
+                        <lightning-input-field class="slds-col slds-m-left_large"  field-name="Level__c"></lightning-input-field>
+                    </div>
+                    <h3 class="test-id__section-header-container slds-p-left_small slds-m-top_medium section-Header  
+                                slds-m-bottom_small slds-section__title slds-theme--shade">Description Information</h3>
+                    <div class="slds-grid slds-p-left_medium slds-p-right_medium">
+                        <lightning-input-field  field-name="Description"></lightning-input-field>
+                    </div>
+                </lightning-record-edit-form>
+            </slot>
+          </div>
+          <footer class="slds-modal__footer">
+              <div class="slds-align_absolute-center">
+                <button if:true={showErrorButton} class="slds-button slds-button_icon slds-m-right_small" onclick={visibilityErrorDialog}>
+                    <svg height="25" width="25">
+                        <circle cx="12.5" cy="12.5" r="10" stroke="red" stroke-width="2.7" fill="white" />
+                        <line x1="6" y1="19" x2="21" y2="5" stroke-width="2.7" stroke="red" />
+                      </svg> 
+                    <span class="slds-assistive-text">Error</span>
+                </button>
+                <lightning-button class="slds-m-right_xx-small" onclick={handleDialogClose} variant="neutral" label="Cancel"></lightning-button>
+                <lightning-button class="slds-m-right_xx-small" onclick={handleSaveAndNewButtonClick}  variant="neutral" label="Save & New"></lightning-button>
+                <lightning-button variant="brand" onclick={handleSaveButtonClick}   label="Save" ></lightning-button>
+              </div>
+              <section if:true={showErrorPopover} class="slds-popover slds-popover_error slds-nubbin_bottom error-popover" role="dialog">
+                    <button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close" onclick={visibilityErrorDialog}>
+                        <svg height="10" width="10">
+                            <line x1="0" y1="1" x2="8" y2="9"  stroke="white" />
+                            <line x1="8" y1="1" x2="0" y2="9"  stroke="white" />
+                            </svg> 
+                        <span class="slds-assistive-text">Close dialog</span>
+                    </button>
+                <header class="slds-popover__header">
+                  <div class="slds-media slds-media_center slds-has-flexi-truncate ">
+                    <div class="slds-media__figure error-icon">
+                        <svg height="20" width="20">
+                            <circle cx="9" cy="9" r="7" stroke="white" stroke-width="2" fill="#c00414" />
+                            <line x1="4" y1="14" x2="13" y2="5" stroke-width="2" stroke="white" />
+                        </svg> 
+                    </div>
+                      <h2 class="slds-truncate slds-text-heading_medium" >We hit a snag.</h2>
+                    </div>
+                </header>
+                <div>
+                    <div class="body-header">Review the following errors</div>
+                    <ul class="body-content"></ul>
+                </div>
+              </section>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+  </template>

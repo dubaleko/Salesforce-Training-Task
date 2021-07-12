@@ -1,0 +1,26 @@
+.border{
+    border-radius: 5px;
+    border: 1px solid #dedcdb;
+    background-color: #f2f3f2;
+}
+
+.buffer{
+    height: 16px;
+    background-color: #f2f3f2;
+}
+
+.body{
+    padding-top: 10px;
+    border-top: 1px solid #dedcdb; 
+}
+
+.footer{
+    margin-bottom: -31px;
+    display:flex;
+    justify-content: center;
+    border-top: 1px solid #dedcdb;
+}
+
+button{
+    font-size: 14px;
+}
